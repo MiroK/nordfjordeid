@@ -1,0 +1,38 @@
+This lecture is about an important ingredient of efficient solution algorithms for
+solving linear systems $\la{A}\la{x}=\la{b}$. Here $\la{A}\in\reals^{n\times n}$
+is a matrix while $\la{x}, \la{b}\in\reals^n$ are respectively the solution vector
+and the right-hand side vector. The matrices we have in mind are large, $n \gg
+10^5$, and will typically be sparse meaning that in each row there is only a small
+(constant) number of nonzero entries. Consequently, to store the matrix / compute its 
+matrix-vector product only $\mathcal{O}(n)$ numbers are needed.
+
+One option to solve such systems is with direct solvers. Note that naive
+implementation of Gaussian elimination requires $\mathcal{O}(\tfrac{2}{3}n^3)$
+operations, e.g. \site{Quart}, and thus assuming $n=10^7$ and a computer performing $3\times 10^9$
+operations per second the algorithm will compute the solution in more than six
+thousand years. However, direct solvers implemented in UMFPACK,
+SUPER\textunderscore{LU} or MUMPS (to name those that are interfaced from FEniCS)
+are much more effcient. Taking into account the sparsity structure of the matrix
+their complexity is bounded by $n z \log{n}$, see \site{super}, where $z$ is the number 
+of nonzero entries. Still, solutions of systems with tens of millions of unknowns are not
+attainable with these solvers.
+
+Another option are iterative methods where the algorithms produce sequence of
+vectors $\set{\la{x}_i}_{i=1}^{k}$ which should converge to the true solution $\la{x}$. We
+would like an approximate solution $\la{x}_i$ to be produced at a cost of
+$\mathcal{O}(n)$ operations (similar to the cost of matrix-vector product) and $k$
+for which a good approaximation is obtained to be as small as possible. In order
+for the latter we might instead of $\la{A}\la{x}=\la{b}$ consider the system
+$\la{B}\la{A}\la{x}=\la{B}\la{b}$. Here $\la{B}$ is the preconditioner.
+
+In standard texts such as \site{golub} or \site{strang} iterative methods are
+first discussed for the system $\la{A}\la{x}=\la{b}$. Preconditioned versions of
+the algorithms are only introduced later (in order to improve convergence
+properties of the methods). In this sense, preconditioner is detached from the
+linear system. Here we shall present things in a different way. The discrete systems 
+we have in mind originate from discretization of partial differential equations and 
+we will be primarily concerned with this continuous problem. We will see that the idea 
+of preconditioner appears naturally as we discuss meaning of the solution /
+well-posedness of the problem. Moreover, the ``continuous-first'' point of view will 
+give us a template for designing preconditioners which lead to convergence in a number 
+of iterations independent of the system size.

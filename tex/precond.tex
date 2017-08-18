@@ -10,6 +10,7 @@
 
 \usepackage{amsmath,amsfonts,graphicx}
 \usepackage[hidelinks]{hyperref}
+\usepackage{color}
 
 %
 % The following commands set up the lecnum (lecture number)
@@ -78,8 +79,48 @@
 \newtheorem{definition}[theorem]{Definition}
 \newenvironment{proof}{{\bf Proof:}}{\hfill\rule{2mm}{2mm}}
 
+\newcommand*{\Scale}[2][4]{\scalebox{#1}{$#2$}}%
+\newcommand*{\Resize}[2]{\resizebox{#1}{!}{$#2$}}%
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\sitewho}{\textcolor{magenta}{$\left[?!?\right]$}}
+\newcommand{\site}[1]{\textcolor{magenta}{$\left[\text{#1}\right]$}}
+\newcommand{\naturals}{\mathbb{N}}
+\newcommand{\set}[1]{\{#1\}}
+\newcommand{\abs}[1]{\lvert#1\rvert}
+\newcommand{\semi}[1]{\lvert#1\rvert}
+\newcommand{\norm}[1]{\lVert#1\rVert}
+\newcommand{\nhalf}{\Scale[0.5]{-\tfrac{1}{2}}}
+\newcommand{\dual}[1]{#1^{\prime}}
+\newcommand{\Div}[1]{\nabla\cdot #1}
+\renewcommand{\brack}[1]{\langle#1\rangle}
+% ---Spaces---
+\newcommand{\hone}{H^{1}\left(\Omega\right)}
+\newcommand{\Hone}{\left[\hone]^3}
+\newcommand{\Z}{Z}
+\newcommand{\Zpolar}{Z^0}
+\newcommand{\Zperp}{Z^\perp}
+%% % ---Linalg---
+\newcommand{\inv}[1]{\ensuremath{{#1}^{-1}}}
+\newcommand{\tr}[1]{\ensuremath{{\text{tr}{#1}}}}
+\newcommand{\transp}[1]{\ensuremath{{#1}^{\Scale[0.5]{\top}}}}
+\newcommand{\la}[1]{\mathsf{#1}}
+\DeclareMathOperator{\spn}{span}
+
+% ---Change inf and sup alignments---
+\makeatletter
+\renewcommand{\inf}{\mathop{\@inf\vphantom{\@sup}}}
+\renewcommand{\sup}{\mathop{\@sup\vphantom{\@inf}}}
+\newcommand{\@inf}{\operatorname*{inf}}
+\newcommand{\@sup}{\operatorname*{sup}}
+\newcommand{\overbar}[1]{\mkern 1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern 1.5mu}
+
 \begin{document}
 
 \lecture{Preconditioning}
 
+\section{Introduction}
+\input{p_intro.tex}
+
+\section{The continuous problem}
+\input{p_lax_milgram.tex}
 \end{document}
