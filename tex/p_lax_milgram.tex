@@ -1,1 +1,60 @@
-here
+The path that we have chosen to take begins with an \textit{abstract} problem into which the
+\textit{concrete} continuous problems (equations), for which we shall design preconditioners later, 
+can be recast. To present the problem, let us first fix the notation.
+
+\subsection{Notation and preliminaries}
+Let $V$ be a Hilbert space over some bounded domain $\Omega$. The space of bounded
+linear functionals over $V$\footnote{Functional over $V$ is a mapping taking functions 
+from $V$ and returning numbers, e.g. $v \mapsto \int_{\Omega} v(x)\,\mathrm{d}x$} 
+shall be denoted $\dual{V}$. For $f\in\dual{V}$ the value of the functional in function 
+$v\in V$ is $\brack{f, v}_{\dual{V}, V}$. We denote by $(\cdot, \cdot)_V$
+the inner product of $V$ and $\norm{\cdot}_V$ shall be the corresponding norm,
+i.e. $\norm{u}_V=\sqrt{(u, u)_V}$ for all $u\in V$. The norm of $\dual{V}$ is then 
+$\norm{f}_{\dual{V}}=\sup_{v\in V}\tfrac{\semi{\brack{f, v}_{\dual{V},
+V}}}{\norm{v}_V}$. Finally, we will use a shorthad notations for the norms of
+$L^2(\Omega)$ and $H^1(\Omega)$ spaces
+%
+\[
+  \norm{u}_0 = \sqrt{\int_{\Omega} u^2(x)\,\mathrm{d}x}
+  \quad
+  \mbox{ and }
+  \quad
+  \norm{u}_1 = \sqrt{\norm{u}^2_0 + \norm{\nabla{u}}^2_0}.
+\]
+%
+
+Given $V$ with inner product $(\cdot, \cdot)_V$ suppose that $u\in V$ is fixed and
+consider a mapping $f_u: v\rightarrow (u, v)_V$. Using Cauchy-Schwarz theorem\footnote{
+  Recall that the angle $\theta$ of two vectors $\la{u}, \la{v} \in \reals^n$ is 
+  defined as $\cos{\theta}=\frac{
+    \semi{\la{u}\cdot\cdot{v}}
+  }
+  {
+    \semi{\la{u}\cdot\la{u}}\semi{\la{v}\cdot\la{v}}
+  }$. But then clearly
+\[
+  \semi{\la{u}\cdot\la{v}} 
+  \leq \norm{\la{u}}\norm{\la{v}}
+  \quad\quad
+  \norm{\la{u}}=\sqrt{\la{u}\cdot\la{u}}
+\]
+holds for all vectors in $\reals^n$. Cauchy-Schwarz inequality is a generalization
+of the statement above.}
+%
+see e.g. \site{brenner}, we have $\semi{(u, v)_V}\leq\norm{u}_V\norm{v}_V$ and so
+$f_u\in \dual{V}$. Looking at $f_u$ we see that (some) elements of $\dual{V}$ can 
+be manufactured via inner products. The \textit{Riesz map} theorem states that
+\textit{all} the elements can be manufactured this way.
+
+\begin{theorem}\label{thm:riesz}
+  Given Hilbert space $V$ with an inner product $(\cdot, \cdot)_V$ there exists
+  for every $f\in \dual{V}$ a unique function $\tau f\in V$ such that $\brack{f,
+  v}_{\dual{V}, V}=(\tau f, v)_V$ for all $v\in V$.
+\end{theorem}
+\begin{proof}
+See ?
+\end{proof}
+Note that in \ref{thm:riesz} we can consider the space $V$ with a different inner
+product. 
+
+
