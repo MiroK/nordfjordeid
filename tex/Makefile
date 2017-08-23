@@ -10,7 +10,7 @@ coupled.pdf: coupled.tex
 
 view: 
 	evince precond.pdf &
-	evince coupled.pdf &
+	# evince coupled.pdf &
 
 clean:
 	latexmk -C

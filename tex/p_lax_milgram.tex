@@ -145,8 +145,100 @@ illustrated in the next example, which is taken from \site{malek}.
     \brack{Au, v}_{\dual{V}, V} = \brack{b, v}_{\dual{V}, V}\quad\forall v\in V.
   \end{equation}
   %
+  % TODO: remark on special case of a symmetric
   Existence of solution of \eqref{eq:abstract} is the subject of Lax-Milgram
-  theorem.
+  theorem. In a special case when the bilinear form $a$ is symmetric\footnote{As a
+  consequence we have 
+  $\brack{Au, v}_{\dual{V}, V}=a(u, v)=a(v, u) = \brack{Av, u}_{\dual{V}, V}$} the
+  existence follows from Theorem \ref{thm:riesz}. More specifically, if
+  \eqref{eq:lm_assume} hold then due to symmetry of $a$ the bilinear form induces
+  an inner product on $V$ and the representation theorem gives $u$ as $\tau b$
+  where $\tau$ is the Riesz map with respect to the induced inner product. Note
+  that in this case $\norm{u}_{V}=\norm{\tau}_{\dual{V}}$.
 
   % TODO: theorem+proof
-  %       remark on special case of a symmetric
+  \begin{theorem}[Lax-Milgram]\label{thm:lm} Assume that \eqref{eq:lm_assume} hold.
+  For any $b\in\dual{V}$ there exists a unique solution $u\in V$ of \eqref{eq:abstract}.
+    Moreover $\norm{u}_V\leq \tfrac{1}{\alpha}\norm{b}_{\dual{V}}$.
+  \end{theorem}
+  \begin{proof}
+  The following constructive proof can be found in \site{brenner}. We reproduce it here
+  as it will be our first encounter with iterative algorithm (for solving \eqref{eq:abstract}).
+
+  Let $u_0\in V$ be some guess for solution of \eqref{eq:abstract}. Since $b-Au=0$ for the
+  exact solution it seems reasonable to build a procedure for improving the guess 
+  using the residual $b-Au_0$. However, as the two are in different space, 
+  $u_0\in V$ while $b-Au_0\in \dual{V}$, they cannot simply be added together. To
+  transform the residual to the solution space a mapping the dual space is needed. 
+  But we have already seen such a transformation! Using the Riesz map $\tau$ (Theorem
+  \ref{thm:riesz} let us now define the iterative procedure for solving
+  \eqref{eq:abstract}
+  %
+    \begin{equation}\label{eq:richardson}
+      u_0 \leftarrow u_0 + \rho \tau (b-Au_0) =: T u_0
+    \end{equation}
+  %
+  with $\rho$ a constant parameter to be suitably adjusted.
+  
+  Since $V$ is also a Banach space the proof that \eqref{eq:richardson}
+  converges to a limit (solution) $u\in V$ uses Banach fixed point theorem. Thus
+  contraction property of the mapping $T$ is needed: there exists $\epsilon < 1$
+  such that
+  %
+  \[
+    \norm{T(u_1 - u_2)}_V \leq \epsilon \norm{u_1 - u_2}_V \quad \forall u_1, u_2\in V.
+  \]
+  %
+  This, however, follows from \eqref{eq:lm_assume} and properties of the Riesz
+  map. Indeed letting $v=u_1-u_2$ we have
+  %
+    \[
+  \begin{split}
+    \norm{Tv}^2_V &= \norm{v-\rho\tau A v}^2_V = (v-\rho\tau A v, v-\rho\tau A v)_V\\
+                &=\norm{v}^2_V - 2\rho(\tau A v, v)_V + \rho^2(\tau A v, \tau A v)_V\\
+                &=\norm{v}^2_V - 2\rho\brack{A v, v}_V + \rho^2(\tau A v, \tau Av)_V
+                \mathrlap{\textcolor{gray}{\text{ by} \brack{Au, v}_{\dual{V}, V}=a(u, v)}}\\
+                &\leq \norm{v}^2_V - 2\rho\alpha\norm{v}^2_V + \rho^2(\tau A v, \tau Av)_V
+                \mathrlap{\textcolor{gray}{\text{ by \eqref{eq:coerc}}}}\\
+                &\leq \norm{v}^2_V - 2\rho\alpha\norm{v}^2_V + \rho^2\brack{A v, \tau Av)_{\dual{V}, V}}
+                \mathrlap{\textcolor{gray}{\text{ by Riesz}}}\\
+                &\leq \norm{v}^2_V - 2\rho\alpha\norm{v}^2_V + \rho^2 a(v, \tau Av)
+                \mathrlap{\textcolor{gray}{\text{ by definition of } A}}\\
+                &\leq \norm{v}^2_V - 2\rho\alpha\norm{v}^2_V + \rho^2 C
+                \norm{v}_V\norm{\tau Av}_V
+                \mathrlap{\textcolor{gray}{\text{ by \eqref{eq:contin}}}}\\
+                &= \norm{v}^2_V - 2\rho\alpha\norm{v}^2_V + \rho^2 C \norm{v}_V\norm{Av}_V
+                \mathrlap{\textcolor{gray}{\text{ by Riesz isometry }}}\\
+                &\leq (1 - 2\rho\alpha + \rho^2 C^2)\norm{v}^2_V
+                \mathrlap{\textcolor{gray}{\text{ by \eqref{eq:contin}}}}.\\
+  \end{split}
+    \]
+  %
+  To ensure that $(1 - 2\rho\alpha + \rho^2 C^2) < 1$ it now suffices to chose
+  $\rho$ from the interval $(0, \tfrac{2\alpha}{C^2})$. Note that the smallest
+  $\epsilon=1-\tfrac{\alpha^2}{C^2}$ is obtained for $C=\tfrac{\alpha}{C^2}$. Since
+  the mapping $T$ is a contraction there exists a unique fixed point, $u=Tu$.
+
+  Finally, the estimate of $u$ in terms of the right-hand side follows 
+    from ellipticity of $a$ and the fact that $u$ solves \eqref{eq:abstract}
+  \[
+    \alpha\norm{u}^2_V \leq a(u, u) = \brack{A u, u}_{\dual{V}, V} = 
+    \brack{f, u}_{\dual{V}, V} \leq \norm{f}_{\dual{V}}\norm{u}_V.
+  \]
+  \end{proof}
+  
+  % TODO: cond of operator
+  %Following Lax-Milgram theorem we know that problem \eqref{eq:abstract} has
+  %a unique solution and we can address convergence rate of the algorithm proposed
+  %in the proof. Letting $u_k\in V$ denote the $k$-th vector computed by the
+  %procedure we recall that the iterates are computed as $u_k = T u_{k-1}$ and the
+  %solution $u$ of \eqref{eq:absract} satifies $u=Tu$. Letting now $e_k=u - u_k\in V$
+  %be the error of $k$-th vector we observe that $e_k = T e_{k-1}$. Thus
+  %$\norm{e_{k+1}}_V = \norm{T e_{k}} \leq \epsilon \norm{e_k}_V$ where $\epsilon$
+  %is the contraction constant from the proof.
+  %generated by algorithm \eqref{eq:richardson} and the error in the solution of
+  %\eqref{eq:abstract} we see, cf. proof of Lax-Milgram theorem, that the norm of the 
+  %error is governed by $\norm{Te_k}_V$
+  
+
+  % TODO: discretization

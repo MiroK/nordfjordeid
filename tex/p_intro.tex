@@ -10,8 +10,8 @@ One option to solve such systems is with direct solvers. Note that naive
 implementation of Gaussian elimination requires $\mathcal{O}(\tfrac{2}{3}n^3)$
 operations, e.g. \site{Quart}, and thus assuming $n=10^7$ and a computer performing $3\times 10^9$
 operations per second the algorithm will compute the solution in more than six
-thousand years. However, direct solvers implemented in UMFPACK,
-SUPER\textunderscore{LU} or MUMPS (to name those that are interfaced from FEniCS)
+thousand years. However, direct solvers implemented in Umfpack,
+Super\textunderscore{lu} or Mumps (to name those that are interfaced from FEniCS)
 are much more effcient. Taking into account the sparsity structure of the matrix
 their complexity is bounded by $n z \log{n}$, see \site{super}, where $z$ is the number 
 of nonzero entries. Still, solutions of systems with tens of millions of unknowns are not
